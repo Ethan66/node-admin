@@ -2,7 +2,7 @@
 const Router = require('koa-router')
 const router = new Router()
 // 导如对应的控制器
-const example_controller = require('./../../app/controllers/example_controller')
+const example_controller = require('../app/controllers/example')
 
 // 为控制器的方法定义请求路径和请求方式
 router.get('/api/example/get', example_controller.getExample)
