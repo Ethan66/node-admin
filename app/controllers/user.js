@@ -63,7 +63,7 @@ const login = async (ctx, next) => {
     }
   })
   if (result) {
-    return ctx.success({ msg: '登录成功' })
+    return ctx.success({ msg: '登录成功', data: { userId, userName } })
   }
 }
 

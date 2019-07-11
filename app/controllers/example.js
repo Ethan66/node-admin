@@ -60,7 +60,6 @@ const postExample = async (ctx, next) => {
     ctx.throw(400, 'msg类型错误') // 抛错：内置方法
   }
   const findResult = await Example_col.findOne({ msg: req.msg }).exec().catch(err => { ctx.throw(500, '服务器内部错误') })
-  console.log(222, findResult)
   if (findResult) {
     return ctx.success({ code: '000001', msg: 'msg重复' })
   }
