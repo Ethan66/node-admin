@@ -2,6 +2,7 @@ const Koa = require('koa')
 const cors = require('koa2-cors') // 跨域
 const bodyParser = require('koa-bodyparser') // post请求获取请求参数
 const response = require('./app/middlewares/response')
+const formatDate = require('./app/middlewares/formatDate')
 const mongoose = require('mongoose')
 const mongodb = require('./config').mongodb
 
@@ -20,6 +21,7 @@ mongoose.connect(mongodb.db, { useNewUrlParser:true }, (err) => {
 app.use(cors())
 app.use(bodyParser())
 app.use(response)
+app.use(formatDate)
 
 const example_router = require('./routes/example_router')
 app.use(example_router.routes()).use(example_router.allowedMethods())
