@@ -7,5 +7,7 @@ const config = require('../config'),
 
 router.post('/register', user.register)
       .post('/login', user.login)
+      .post('/getUserResource', user.menu)
+      .post('/getUserFields', user.field)
 
 module.exports = router

@@ -1,5 +1,6 @@
 const passport = require('./../utils/passpot')
 const user_col = require('./../models/user')
+const menu_col = require('./../models/menu')
 const password_col = require('./../models/password')
 
 const register = async (ctx, next) => {
@@ -40,7 +41,6 @@ const login = async (ctx, next) => {
   if (errorCount === 3) {
     let timeDiff = ((new Date().getTime() - new Date(errorTime).getTime())/1000/60).toFixed(0)
     if (timeDiff < 1) {
-      console.log(333, timeDiff)
       return ctx.success({ msg: '账号已被锁定', code: '000004' })
     }
     errorCount = 0
@@ -67,6 +67,23 @@ const login = async (ctx, next) => {
   }
 }
 
+const menu = async (ctx, next) => {
+  let { userId } = ctx.request.body
+  if (!userId) {
+    return ctx.loginFail()
+  }
+  let result = await menu_col.find()
+  ctx.success({ data: result })
+}
+
+const field = async (ctx, next) => {
+  let { userId } = ctx.request.body
+  if (!userId) {
+    return ctx.loginFail()
+  }
+  ctx.success({})
+}
+
 module.exports = {
-  register, login
+  register, login, menu, field
 }
