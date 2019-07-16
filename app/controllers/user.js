@@ -84,6 +84,28 @@ const field = async (ctx, next) => {
   ctx.success({})
 }
 
+const modifyPassword = async (ctx, next) => {
+  let { userId, password, newPassword } = ctx.request.body
+  let result = await password_col.findOne({ userId })
+  if (result.password !== password) {
+    return ctx.success({ msg: '原密码不正确', code: '999999' })
+  }
+  await password_col.update({ userId }, {
+    $set: {
+      password: newPassword, modifyTime: ctx.formatDate()
+    }
+  })
+  ctx.success({ msg: '修改成功' })
+}
+
+const loginOut = async (ctx, next) => {
+  let { userId } = ctx.request.body
+  if (!userId) {
+    return ctx.loginFail()
+  }
+  ctx.success({})
+}
+
 module.exports = {
-  register, login, menu, field
+  register, login, menu, field, loginOut, modifyPassword
 }

@@ -9,5 +9,7 @@ router.post('/register', user.register)
       .post('/login', user.login)
       .post('/getUserResource', user.menu)
       .post('/getUserFields', user.field)
+      .post('/loginOut', user.loginOut)
+      .post('/modifyPassword', user.modifyPassword)
 
 module.exports = router

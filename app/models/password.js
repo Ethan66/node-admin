@@ -10,7 +10,8 @@ const PasswordSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  modifyTime: String
 }, { collection: 'password', versionKey: false})
 
 module.exports = mongoose.model('password', PasswordSchema)
