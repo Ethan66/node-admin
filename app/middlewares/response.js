@@ -1,10 +1,10 @@
 //在ctx对象上挂载success方法
 module.exports = async (ctx, next) => {
   // 请求成功时
-  ctx.success = ({ data = null, msg = '成功', code = '000000' }) => {
-    ctx.body = { code, data, msg }
+  ctx.success = ({ data = null, msg = '成功', code = '000000' } = {}) => {
+    ctx.body = { code, data: data, msg }
   }
-  ctx.loginFail = ({ data, msg = '登录失效，请重新登录', code = '10100' }) => {
+  ctx.loginFail = ({ data = null, msg = '登录失效，请重新登录', code = '10100' } = {}) => {
     ctx.body = { code, data, msg}
   }
   //这里本来封装了  ctx.error(用ctx.body封装) 却发现在catch(err)下ctx.error无法结束中间件的执行，加return也没用,因为只能return一层

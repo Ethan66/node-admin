@@ -81,7 +81,7 @@ const field = async (ctx, next) => {
   if (!userId) {
     return ctx.loginFail()
   }
-  ctx.success({})
+  ctx.success()
 }
 
 const modifyPassword = async (ctx, next) => {
@@ -103,7 +103,7 @@ const loginOut = async (ctx, next) => {
   if (!userId) {
     return ctx.loginFail()
   }
-  ctx.success({})
+  ctx.success()
 }
 
 module.exports = {

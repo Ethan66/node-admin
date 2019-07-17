@@ -29,7 +29,10 @@ const menuSchema = new Schema({
   },
   menuUrl: String,
   menuIcon: String,
-  sortNo: Number,
+  sortNo: {
+    type: Number,
+    default: 1
+  },
   status: {
     type: Number,
     default: 1
