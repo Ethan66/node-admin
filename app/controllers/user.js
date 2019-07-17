@@ -73,7 +73,7 @@ const menu = async (ctx, next) => {
     return ctx.loginFail()
   }
   let result = await menu_col.find()
-  ctx.success({ data: result })
+  ctx.success({ data: { list: result } })
 }
 
 const field = async (ctx, next) => {

@@ -24,12 +24,16 @@ const menuSchema = new Schema({
     required: true
   },
   menuType: {
-    type: String,
+    type: Number,
     required: true
   },
   menuUrl: String,
   menuIcon: String,
   sortNo: Number,
+  status: {
+    type: Number,
+    default: 1
+  },
   delete: {
     type: Number,
     default: 0
