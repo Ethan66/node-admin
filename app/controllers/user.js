@@ -68,11 +68,14 @@ const login = async (ctx, next) => {
 }
 
 const menu = async (ctx, next) => {
-  let { userId } = ctx.request.body
+  let { userId, menuName, status } = ctx.request.body
   if (!userId) {
     return ctx.loginFail()
   }
-  let result = await menu_col.find()
+  let search = {}
+  menuName && (search.menuName = menuName)
+  status !== undefined && (search.status = status)
+  let result = await menu_col.find(search)
   ctx.success({ data: { list: result } })
 }
 
