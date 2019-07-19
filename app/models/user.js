@@ -6,14 +6,24 @@ const userSchema = new Schema({
     unique: true,
     required: true
   },
-  userName: {
+  user: {
     type: String,
+    unique: true,
     required: true
+  },
+  userName: {
+    type: String
   },
   delete: {
     type: Number,
     default: 0
   },
+  status: {
+    type: Number,
+    default: 1
+  },
+  roleId: Number,
+  roleName: String,
   ipAddress: String,
   operatingSystem: String,
   terminal: String,
@@ -23,7 +33,8 @@ const userSchema = new Schema({
     type: Number,
     default: 0
   },
-  errorTime: String
+  errorTime: String,
+  operator: String
 }, { 
   collection: 'user', // 集合表
   versionKey: false // 不需要 __v 字段，默认是加上的

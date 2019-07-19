@@ -39,7 +39,7 @@ const deleteMenu = async (ctx, next) => {
   if (!id) {
     ctx.throw(400, '缺少参数')
   }
-  const result = await menu_col.deleteOne({ id })
+  const result = await menu_col.update({ id }, { $set: { delete: 1 } })
   if (result) {
     ctx.success({ msg: '删除成功' })
   }
