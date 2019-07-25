@@ -1,3 +1,4 @@
+const md5 = require('md5')
 const passport = require('./../utils/passpot')
 const user_col = require('./../models/user')
 const menu_col = require('./../models/menu')
@@ -67,15 +68,14 @@ const login = async (ctx, next) => {
     }
   })
   if (result) {
-    return ctx.success({ msg: '登录成功', data: { userId, user, userName } })
+    let sessionId = md5(`${userId}${user}`)
+    ctx.session.userInfo = { userId, user, sessionId }
+    return ctx.success({ msg: '登录成功', data: { userId, user, userName, sessionId } })
   }
 }
 
 const getUser = async (ctx, next) => {
-  let { userId, name, account, status } = ctx.request.body
-  if (!userId) {
-    return ctx.loginFail()
-  }
+  let { name, account, status } = ctx.request.body
   let search = {}
   name && (search.userName = name)
   account && (search.user = account)
@@ -91,10 +91,7 @@ const getUser = async (ctx, next) => {
 }
 
 const menu = async (ctx, next) => {
-  let { userId, menuName, status } = ctx.request.body
-  if (!userId) {
-    return ctx.loginFail()
-  }
+  let { menuName, status } = ctx.request.body
   let search = {}
   menuName && (search.menuName = menuName)
   status !== undefined && (search.status = status)
@@ -105,10 +102,6 @@ const menu = async (ctx, next) => {
 
 // 获取字段
 const field = async (ctx, next) => {
-  let { userId } = ctx.request.body
-  if (!userId) {
-    return ctx.loginFail()
-  }
   ctx.success()
 }
 
@@ -127,10 +120,7 @@ const modifyPassword = async (ctx, next) => {
 }
 
 const loginOut = async (ctx, next) => {
-  let { userId } = ctx.request.body
-  if (!userId) {
-    return ctx.loginFail()
-  }
+  ctx.session.userInfo = {}
   ctx.success()
 }
 
