@@ -4,7 +4,7 @@ const user_col = require('./../models/user')
 const menu_col = require('./../models/menu')
 const password_col = require('./../models/password')
 
-// 注册、新增用户
+// 注册
 const register = async (ctx, next) => {
   const { user, userName, password, operator } = ctx.request.body
   if (!user || !userName || !password) {
@@ -126,8 +126,8 @@ const loginOut = async (ctx, next) => {
 
 // 编辑用户信息
 const modifyUserInfo = async (ctx, next) => {
-  let { userId, id, account, name, password, status, operator } = ctx.request.body
-  if (!userId || account) {
+  let { id, account, name, password, status, operator } = ctx.request.body
+  if (!account) {
     ctx.throw(400, '缺少参数')
   }
   let result = await user_col.find({ user: account })
@@ -137,13 +137,37 @@ const modifyUserInfo = async (ctx, next) => {
   let search = { user: account, userName: name, status, operator }
   if (!account) delete search.user
   if (!name) delete search.userName
-  await user_col.findOneAndUpdate({ id }, search, () => {
+  console.log(id, search)
+  await user_col.update({ userId: id }, { $set: search }, () => {
     if (password) return false
     ctx.success()
   })
-  password && await password_col.findOneAndUpdate({ id }, { password }, () => {
+  password && await password_col.update({ userId: id }, { $set: { password } }, () => {
     ctx.success()
   })
+}
+
+// 新增用户
+const addUser = async (ctx, next) => {
+  const { account, name, password, operator } = ctx.request.body
+  if (!account || !name || !password) {
+    ctx.throw(400, '缺少参数')
+  }
+  const userArr = await user_col.find()
+  const userLength = userArr.length
+  if (userArr.find(item => item.user === account)) {
+    return ctx.success({ msg: '账号已存在', code: '000001' })
+  }
+  const userId = userLength + 1
+  const newUser = await user_col.create({
+    userId, user: account, userName: name, operator, createTime: ctx.formatDate()
+  })
+  if (newUser) {
+    const result = await password_col.create({ userId, password })
+    if (result) {
+      return ctx.success({ msg: '注册成功', code: '000000' })
+    }
+  }
 }
 
 // 删除账号
@@ -159,5 +183,5 @@ const deleteUser = async (ctx, next) => {
 }
 
 module.exports = {
-  register, login, menu, field, loginOut, modifyPassword, getUser, modifyUserInfo, deleteUser
+  register, login, menu, field, loginOut, modifyPassword, getUser, modifyUserInfo, deleteUser, addUser
 }
