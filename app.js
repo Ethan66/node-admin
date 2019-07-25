@@ -10,7 +10,7 @@ const router = require('./routes')
 
 const app = new Koa()
 
-mongoose.connect(mongodb.db, { useNewUrlParser:true }, (err) => {
+mongoose.connect(mongodb.db, { useNewUrlParser:true }, (err) => { // 连接数据库
   if (err) {
     console.error('Failed to connect to database')
   } else {
