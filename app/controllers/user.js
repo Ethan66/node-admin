@@ -76,10 +76,7 @@ const login = async (ctx, next) => {
 
 const getUser = async (ctx, next) => {
   let { name, account, status } = ctx.request.body
-  let search = {}
-  name && (search.userName = name)
-  account && (search.user = account)
-  status !== undefined && (search.status = status)
+  let search = JSON.parse(JSON.stringify({ name, account, status }))
   let result = await user_col.find(search)
   result = result.map(item => {
     let obj = JSON.parse(JSON.stringify(item))
@@ -92,9 +89,7 @@ const getUser = async (ctx, next) => {
 
 const menu = async (ctx, next) => {
   let { menuName, status } = ctx.request.body
-  let search = {}
-  menuName && (search.menuName = menuName)
-  status !== undefined && (search.status = status)
+  let search = JSON.parse(JSON.stringify({ menuName, status }))
   search.delete = 0
   let result = await menu_col.find(search)
   ctx.success({ data: { list: result } })
@@ -170,14 +165,14 @@ const addUser = async (ctx, next) => {
   }
 }
 
-// 删除账号
+// 删除账号(彻底批量删除数据)
 const deleteUser = async (ctx, next) => {
   let { id } = ctx.request.body
   if (id.includes(1)) {
     return ctx.success({ msg: '超级管理员不能删除', code: '000001' })
   }
   await user_col.remove({ userId: { $in: id } })
-  await user_col.remove({ userId: { $in: id } }, () => {
+  await password_col.remove({ userId: { $in: id } }, () => {
     ctx.success()
   })
 }
