@@ -9,7 +9,8 @@ const config = require('../config'),
 
 router.post('/register', user.register)
       .post('/login', user.login)
-      .post('/getUserResource', user.menu)
+      .post('/getAllMenu', user.getAllMenu)
+      .post('/getUserAuthMenu', user.getUserAuthMenu)
       .post('/getUserFields', user.field)
       .post('/loginOut', user.loginOut)
       .post('/modifyPassword', user.modifyPassword)
@@ -22,7 +23,9 @@ router.post('/register', user.register)
       .post('/deleteMenu', menu.deleteMenu)
       .post('/addRole', role.addRole)
       .post('/getRole', role.getRole)
+      .post('/getRoleAuthority', role.getRoleAuthority)
       .post('/modifyRole', role.modifyRole)
+      .post('/modifyRoleAuthority', role.modifyRoleAuthority)
       .post('/deleteRole', role.deleteRole)
 
 module.exports = router

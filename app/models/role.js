@@ -18,6 +18,18 @@ const menuSchema = new Schema({
     type: Number,
     default: 0
   },
+  menuIdList: {
+    type: Array,
+    default: []
+  },
+  btnIdList: {
+    type: Array,
+    default: []
+  },
+  userIdList: {
+    type: Array,
+    default: []
+  },
   updateDate: String,
   operator: String
 }, { 
