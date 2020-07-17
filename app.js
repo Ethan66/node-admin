@@ -34,6 +34,7 @@ app.use(verify_sessionId)
 const example_router = require('./routes/example_router')
 app.use(example_router.routes()).use(example_router.allowedMethods())
 
-app.use(router.routes()).use(router.allowedMethods())
+app.use(router.routes()) // 启动路由
+  .use(router.allowedMethods())
 
 app.listen(mongodb.port)
